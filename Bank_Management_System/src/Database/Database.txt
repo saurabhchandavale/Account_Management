@@ -46,3 +46,10 @@ pin varchar(10),
 date varchar(50), 
 type varchar(30), 
 amount varchar(30));
+
+
+
+Need to update project
+
+After withdrawing remaining balance not updated 
+At the time of deposite first check pin already present or not 

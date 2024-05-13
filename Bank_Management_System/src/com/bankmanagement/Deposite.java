@@ -87,8 +87,9 @@ public class Deposite extends JFrame implements ActionListener {
 				}
 
 			} else if (e.getSource() == b2) {
-				setVisible(false);
 				new Main_Class(pin);
+				setVisible(false);
+				
 			}
 
 		} catch (Exception E) {
