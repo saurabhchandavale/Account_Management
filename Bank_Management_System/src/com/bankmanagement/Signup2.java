@@ -206,6 +206,8 @@ public class Signup2 extends JFrame implements ActionListener {
 		String addhar = textAdhar.getText();
 
 		String citizen = " ";
+		System.out.println(r1.getText());
+		System.out.println(r2.getText());
 		if (r1.isSelected())
 			citizen = "YES";
 		else if (r2.isSelected())
@@ -227,7 +229,9 @@ public class Signup2 extends JFrame implements ActionListener {
 				String query = "insert into signuptwo values('" + formno + "', '" + rel + "', '" + category + "', '" + income + "' , '"
 						+ education + "', '" + occupation + "', '" + pan + "', '" + addhar + "', '" + citizen + "', '"
 						+ existing + "')";
+				System.out.println(query);
 				connection.statement.executeUpdate(query);
+				
 				new Signup3(formno);
 				setVisible(false);
 			}

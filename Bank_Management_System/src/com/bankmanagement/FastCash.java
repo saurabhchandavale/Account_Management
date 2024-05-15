@@ -5,19 +5,23 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+import java.util.Date;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
-public class Main_Class extends JFrame implements ActionListener {
+public class FastCash extends JFrame implements ActionListener {
 
 	JButton b1, b2, b3, b4, b5, b6, b7;
 	String pin;
 
-	public Main_Class(String pin) {
-		super("Transaction");
+	public FastCash(String pin) {
+
+		super("Fast Cash");
 		this.pin = pin;
 		ImageIcon i = new ImageIcon(ClassLoader.getSystemResource("icons/atm2.png"));
 		Image i1 = i.getImage().getScaledInstance(1550, 830, Image.SCALE_DEFAULT);
@@ -26,13 +30,13 @@ public class Main_Class extends JFrame implements ActionListener {
 		image.setBounds(0, 0, 1550, 830);
 		add(image);
 
-		JLabel label1 = new JLabel("Please select your transaction ");
+		JLabel label1 = new JLabel("Select Withdrwal Amount ");
 		label1.setFont(new Font("System", Font.BOLD, 28));
 		label1.setBounds(430, 180, 700, 35);
 		label1.setForeground(Color.WHITE);
 		image.add(label1);
 
-		b1 = new JButton("Deposite");
+		b1 = new JButton("Rs. 100");
 		b1.setFont(new Font("System", Font.BOLD, 18));
 		b1.setBounds(410, 274, 180, 35);
 		b1.setForeground(Color.WHITE);
@@ -41,7 +45,7 @@ public class Main_Class extends JFrame implements ActionListener {
 
 		image.add(b1);
 
-		b2 = new JButton("Cash Withdrawal");
+		b2 = new JButton("Rs. 500");
 		b2.setFont(new Font("System", Font.BOLD, 18));
 		b2.setBounds(670, 274, 180, 35);
 		b2.setForeground(Color.WHITE);
@@ -50,7 +54,7 @@ public class Main_Class extends JFrame implements ActionListener {
 
 		image.add(b2);
 
-		b3 = new JButton("Fast Cash ");
+		b3 = new JButton("Rs. 1000");
 		b3.setFont(new Font("System", Font.BOLD, 18));
 		b3.setBounds(410, 318, 180, 35);
 		b3.setForeground(Color.WHITE);
@@ -59,7 +63,7 @@ public class Main_Class extends JFrame implements ActionListener {
 
 		image.add(b3);
 
-		b4 = new JButton("Mini Statement");
+		b4 = new JButton("Rs. 2000");
 		b4.setFont(new Font("System", Font.BOLD, 18));
 		b4.setBounds(670, 318, 180, 35);
 		b4.setForeground(Color.WHITE);
@@ -68,7 +72,7 @@ public class Main_Class extends JFrame implements ActionListener {
 
 		image.add(b4);
 
-		b5 = new JButton("Pin Change ");
+		b5 = new JButton("Rs. 5000");
 		b5.setFont(new Font("System", Font.BOLD, 18));
 		b5.setBounds(410, 362, 180, 35);
 		b5.setForeground(Color.WHITE);
@@ -77,7 +81,7 @@ public class Main_Class extends JFrame implements ActionListener {
 
 		image.add(b5);
 
-		b6 = new JButton("Balance Enquiry");
+		b6 = new JButton("Rs. 10000");
 		b6.setFont(new Font("System", Font.BOLD, 18));
 		b6.setBounds(670, 362, 180, 35);
 		b6.setForeground(Color.WHITE);
@@ -105,27 +109,47 @@ public class Main_Class extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		if (e.getSource() == b1) {
-			new Deposite(pin);
+		if (e.getSource() == b7) {
 			setVisible(false);
-		} else if (e.getSource() == b7) {
-			System.exit(0);
-		}else if(e.getSource() == b2) {
-			new Withdrwal(pin);
+			new Main_Class(pin);
+		} else {
+			String amount = ((JButton) e.getSource()).getText().substring(4);
+			Conn connection = new Conn();
+			Date date = new Date();
+			try {
+				ResultSet resultSet = connection.statement.executeQuery("select * from bank where pin = '" + pin + "'");
+				int balance = 0;
+				while (resultSet.next()) {
+					if (resultSet.getString("type").equals("Deposite")) {
+						balance += Integer.parseInt(resultSet.getString("amount"));
+					} else {
+						balance -= Integer.parseInt(resultSet.getString("amount"));
+
+					}
+				}
+				String sum = "17";
+
+				if (e.getSource() != b7 && balance < Integer.parseInt(amount)) {
+					JOptionPane.showMessageDialog(null, "Insufficient Balance");
+				}
+
+				connection.statement.executeUpdate(
+						"insert into bank values('" + pin + "','" + date + "','Withdrwal','" + amount + "')");
+				JOptionPane.showMessageDialog(null, "Amount Debited Rs " + amount);
+
+			} catch (Exception E) {
+				E.printStackTrace();
+			}
+			
 			setVisible(false);
-		}else if(e.getSource()== b6) {
-			new BalanceEnquiry(pin);
-			setVisible(false);
-		}else if(e.getSource() == b3) {
-			new FastCash(pin);
-			setVisible(false);
+			new Main_Class(pin);
 		}
 
 	}
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		new Main_Class("");
+		// TODO Auto-generated method stu
+		new FastCash("");
 	}
 
 }
