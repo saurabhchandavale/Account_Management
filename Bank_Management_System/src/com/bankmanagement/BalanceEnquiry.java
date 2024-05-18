@@ -15,9 +15,9 @@ import javax.swing.JLabel;
 public class BalanceEnquiry extends JFrame implements ActionListener {
 	JLabel label2;
 	JButton b1;
-	String pin;
+	int pin;
 
-	public BalanceEnquiry(String pin) {
+	public BalanceEnquiry(int pin) {
 		super("Balance Enquiry");
 		ImageIcon i = new ImageIcon(ClassLoader.getSystemResource("icons/atm2.png"));
 		Image i1 = i.getImage().getScaledInstance(1550, 830, Image.SCALE_DEFAULT);
@@ -90,7 +90,7 @@ public class BalanceEnquiry extends JFrame implements ActionListener {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		new BalanceEnquiry("");
+		new BalanceEnquiry(0);
 	}
 
 }

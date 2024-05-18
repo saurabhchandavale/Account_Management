@@ -119,7 +119,9 @@ public class Login extends JFrame implements ActionListener {
 				Conn connection = new Conn();
 				String cardno = jtextField2.getText();
 				System.out.println(cardno);
-				String pin = jpasswordField3.getText();
+				String pinStr = jpasswordField3.getText();
+				int pin = Integer.parseInt(pinStr);
+
 				System.out.println(pin);
 
 				String q = "select * from login where card_number = '" + cardno + "' and pin = '" + pin + "'";

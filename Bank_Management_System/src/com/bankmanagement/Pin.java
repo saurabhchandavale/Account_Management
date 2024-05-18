@@ -17,9 +17,9 @@ import javax.swing.JPasswordField;
 public class Pin extends JFrame implements ActionListener {
 	JButton b1, b2;
 	JPasswordField p1, p2;
-	String pin;
+	int pin;
 
-	public Pin(String pin) {
+	public Pin(int pin) {
 		super("Change Pin");
 		ImageIcon i = new ImageIcon(ClassLoader.getSystemResource("icons/atm2.png"));
 		Image i1 = i.getImage().getScaledInstance(1550, 830, Image.SCALE_DEFAULT);
@@ -87,13 +87,13 @@ public class Pin extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 
-		String pin1 = p1.getText();
-		String pin2 = p2.getText();
+		String pin1Str = p1.getText();
+		String pin2Str = p2.getText();
 
 		try {
 
 			if (e.getSource() == b1) {
-				if (!pin1.equals(pin2)) {
+				if (!pin1Str.equals(pin2Str)) {
 					JOptionPane.showMessageDialog(null, "Password doesnt match..!");
 					return;
 				}
@@ -107,16 +107,21 @@ public class Pin extends JFrame implements ActionListener {
 					JOptionPane.showMessageDialog(null, "Please Enter Password...!");
 					return;
 				}
+				int pin1 = Integer.parseInt(pin1Str);
 
 				Conn connection = new Conn();
 				String q = "update bank set pin = '" + pin1 + "' where pin = '" + pin + "' ";
 				String q1 = "update login set pin = '" + pin1 + "' where pin = '" + pin + "' ";
 				String q2 = "update signupthree set pin = '" + pin1 + "' where pin = '" + pin + "' ";
+				String q3 = "update withdrwal set pin = '" + pin1 + "' where pin = '" + pin + "' ";
+				String q4 = "update deposite set pin = '" + pin1 + "' where pin = '" + pin + "' ";
 
 				connection.statement.executeUpdate(q);
 				connection.statement.executeUpdate(q1);
 
 				connection.statement.executeUpdate(q2);
+				connection.statement.executeUpdate(q3);
+				connection.statement.executeUpdate(q4);
 				JOptionPane.showMessageDialog(null, "Pin changed successfully....!");
 				setVisible(false);
 				new Main_Class(pin1);
@@ -134,7 +139,7 @@ public class Pin extends JFrame implements ActionListener {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		new Pin("");
+		new Pin(0);
 	}
 
 }

@@ -15,6 +15,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
+import javax.swing.JTextField;
 
 public class Signup3 extends JFrame implements ActionListener {
 
@@ -22,6 +23,7 @@ public class Signup3 extends JFrame implements ActionListener {
 	JCheckBox c1, c2, c3, c4, c5, c6, c7;
 	String formno;
 	JButton s, c;
+	JTextField labelPinS;
 
 	public Signup3(String formNo) {
 
@@ -105,11 +107,16 @@ public class Signup3 extends JFrame implements ActionListener {
 		labelPin.setBounds(100, 370, 300, 30);
 		add(labelPin);
 
-		JLabel labelPinS = new JLabel("XXXX");
+	/*	JLabel labelPinS = new JLabel("XXXX");
 		labelPinS.setFont(new Font("Ralway", Font.BOLD, 18));
 		labelPinS.setBounds(330, 370, 300, 30);
 		add(labelPinS);
-
+*/
+		labelPinS = new JTextField(15);
+		labelPinS.setBounds(330, 370, 300, 30);
+		labelPinS.setFont(new Font("Arial", Font.BOLD, 14));
+		add(labelPinS);
+		
 		JLabel labelPass = new JLabel("(4-Digit pin)");
 		labelPass.setFont(new Font("Ralway", Font.BOLD, 12));
 		labelPass.setBounds(100, 400, 350, 20);
@@ -216,7 +223,8 @@ public class Signup3 extends JFrame implements ActionListener {
 		String cardno = "" + Math.abs(first7);
 
 		long first3 = (ran.nextLong() % 9000L) + 1000L;
-		String pin = "" + Math.abs(first3);
+		//String pin = "" + Math.abs(first3);
+		String pinStr = labelPinS.getText();
 
 		String fac = "";
 		if (c1.isSelected()) {
@@ -238,13 +246,14 @@ public class Signup3 extends JFrame implements ActionListener {
 				if (atype.equals(""))
 					JOptionPane.showMessageDialog(null, "Please Fill the all fields ");
 				else {
+					int pin = Integer.parseInt(pinStr);
 					Conn connection = new Conn();
 					String query = "insert into signupthree values('" + formno + "', '" + atype + "', '" + cardno
 							+ "', '" + pin + "' , '" + fac + "')";
 					String q = "insert into login values('" + formno + "', '" + cardno + "', '" + pin + "' )";
 					connection.statement.executeUpdate(query);
 					connection.statement.executeUpdate(q);
-					JOptionPane.showMessageDialog(null, "Card No : " + cardno + " \n Pin " + pin);
+					JOptionPane.showMessageDialog(null, "Card No : " + cardno);
 					// new Signup3(formno);
 					new Deposite(pin);
 					setVisible(false);

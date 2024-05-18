@@ -17,9 +17,9 @@ import javax.swing.JOptionPane;
 public class FastCash extends JFrame implements ActionListener {
 
 	JButton b1, b2, b3, b4, b5, b6, b7;
-	String pin;
+	int pin;
 
-	public FastCash(String pin) {
+	public FastCash(int pin) {
 
 		super("Fast Cash");
 		this.pin = pin;
@@ -164,7 +164,7 @@ public class FastCash extends JFrame implements ActionListener {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stu
-		new FastCash("");
+		new FastCash(0);
 	}
 
 }

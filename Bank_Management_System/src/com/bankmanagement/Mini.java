@@ -11,10 +11,10 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Mini extends JFrame implements ActionListener {
-	String pin;
+	int pin;
 	JButton button;
 
-	public Mini(String pin) {
+	public Mini(int pin) {
 		getContentPane().setBackground(new Color(255, 204, 204));
 		setSize(400, 600);
 		setLocation(20, 20);
@@ -108,7 +108,7 @@ public class Mini extends JFrame implements ActionListener {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		new Mini("");
+		new Mini(0);
 	}
 
 }

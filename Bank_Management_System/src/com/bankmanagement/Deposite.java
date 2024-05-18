@@ -17,11 +17,11 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 public class Deposite extends JFrame implements ActionListener {
-	String pin;
+	int pin;
 	TextField textField;
 	JButton b1, b2;
 
-	public Deposite(String pin) {
+	public Deposite(int pin) {
 		super("Deposite ");
 		this.pin = pin;
 
@@ -122,6 +122,6 @@ public class Deposite extends JFrame implements ActionListener {
 	}
 
 	public static void main(String args[]) {
-		new Deposite("");
+		new Deposite(0);
 	}
 }

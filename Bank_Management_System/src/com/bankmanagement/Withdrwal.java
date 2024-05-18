@@ -16,11 +16,11 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 public class Withdrwal extends JFrame implements ActionListener {
-	String pin;
+	int pin;
 	TextField textField;
 	JButton b1, b2;
 
-	public Withdrwal(String pin) {
+	public Withdrwal(int pin) {
 		super("Withdrwal ");
 		this.pin = pin;
 
@@ -137,7 +137,7 @@ public class Withdrwal extends JFrame implements ActionListener {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		new Withdrwal("");
+		new Withdrwal(0);
 	}
 
 }

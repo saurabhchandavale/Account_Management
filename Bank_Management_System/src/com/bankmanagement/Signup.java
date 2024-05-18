@@ -62,7 +62,7 @@ public class Signup extends JFrame implements ActionListener {
 		textName.setFont(new Font("Ralway", Font.BOLD, 14));
 		add(textName);
 
-		JLabel labelFName = new JLabel("Father's Name : ");
+		JLabel labelFName = new JLabel("Last Name : ");
 		labelFName.setFont(new Font("Ralway", Font.BOLD, 20));
 		labelFName.setBounds(100, 240, 200, 30);
 		add(labelFName);
