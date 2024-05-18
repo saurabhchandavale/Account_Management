@@ -47,6 +47,19 @@ date varchar(50),
 type varchar(30), 
 amount varchar(30));
 
+create table withdrwal(
+pin varchar(10), 
+date varchar(50), 
+type varchar(30), 
+amount varchar(30));
+
+
+create table deposite(
+pin varchar(10), 
+date varchar(50), 
+type varchar(30), 
+amount varchar(30));
+
 
 
 Need to update project

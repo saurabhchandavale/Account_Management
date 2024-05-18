@@ -25,7 +25,7 @@ public class Mini extends JFrame implements ActionListener {
 		label1.setBounds(20, 140, 400, 200);
 		add(label1);
 
-		JLabel label2 = new JLabel("Malamal");
+		JLabel label2 = new JLabel("BANK OF DARODA");
 		label2.setFont(new Font("System", Font.BOLD, 15));
 		label2.setBounds(150, 20, 200, 20);
 		add(label2);
@@ -54,18 +54,34 @@ public class Mini extends JFrame implements ActionListener {
 		try {
 			int balance = 0;
 			Conn connection = new Conn();
-			ResultSet resultSet = connection.statement.executeQuery("select * from bank where pin = '" + pin + "'");
-			while (resultSet.next()) {
+			ResultSet resultSet1 = connection.statement.executeQuery("select * from withdrwal where pin = '" + pin + "'");
+			while (resultSet1.next()) {
 
-				label1.setText(label1.getText() + "<html>" + resultSet.getString("date")
-						+ "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + resultSet.getString("type")
-						+ "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + resultSet.getString("amount") + "<br><br><html>");
+				label1.setText(label1.getText() + "<html>" + resultSet1.getString("date")
+						+ "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + resultSet1.getString("type")
+						+ "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + resultSet1.getString("amount") + "<br><br><html>");
 
-				if (resultSet.getString("type").equals("Deposit")) {
+			/*	if (resultSet.getString("type").equals("Deposit")) {
 					balance += Integer.parseInt(resultSet.getString("amount"));
 				} else {
 					balance -= Integer.parseInt(resultSet.getString("amount"));
-				}
+				}*/
+				balance = Integer.parseInt(resultSet1.getString("amount"));
+			}
+			
+			ResultSet resultSet = connection.statement.executeQuery("select * from bank where pin = '" + pin + "'");
+			while (resultSet.next()) {
+
+				/*label1.setText(label1.getText() + "<html>" + resultSet.getString("date")
+						+ "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + resultSet.getString("type")
+						+ "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + resultSet.getString("amount") + "<br><br><html>");*/
+
+			/*	if (resultSet.getString("type").equals("Deposit")) {
+					balance += Integer.parseInt(resultSet.getString("amount"));
+				} else {
+					balance -= Integer.parseInt(resultSet.getString("amount"));
+				}*/
+				balance = Integer.parseInt(resultSet.getString("amount"));
 			}
 			label4.setText("Your Total Balance is Rs " + balance);
 		} catch (Exception e) {

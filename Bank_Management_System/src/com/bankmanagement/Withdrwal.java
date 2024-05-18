@@ -36,7 +36,7 @@ public class Withdrwal extends JFrame implements ActionListener {
 		label1.setBounds(460, 180, 700, 35);
 		label1.setForeground(Color.WHITE);
 		image.add(label1);
-		
+
 		JLabel label2 = new JLabel("Please enter your amount ");
 		label2.setFont(new Font("System", Font.BOLD, 16));
 		label2.setBounds(460, 220, 500, 35);
@@ -70,52 +70,71 @@ public class Withdrwal extends JFrame implements ActionListener {
 		setLocation(0, 0);
 		setVisible(true);
 	}
-	
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		if(e.getSource() == b1) {
-		try {
-			String amount = textField.getText();
-			Date date = new Date();
-			
-			
-			if(textField.getText().equals("")) {
-				JOptionPane.showMessageDialog(null,"Please enter amount to withdraw");
-			}else {
-				Conn connection = new Conn();
-				ResultSet resultSet = connection.statement.executeQuery("select * from bank where pin = '"+pin+"'");
-				int balance = 0;
-				while(resultSet.next()) {
-					if(resultSet.getString("type").equals("Deposite")) {
-						balance += Integer.parseInt(resultSet.getString("amount"));
-					}else {
-						balance -= Integer.parseInt(resultSet.getString("amount"));
+		if (e.getSource() == b1) {
+			try {
+				String amountStr = textField.getText();
+				
+
+				Date date = new Date();
+
+				if (textField.getText().equals("")) {
+					JOptionPane.showMessageDialog(null, "Please enter amount to withdraw");
+				} else {
+					int amount = Integer.parseInt(amountStr);
+					Conn connection = new Conn();
+					ResultSet resultSet = connection.statement
+							.executeQuery("select * from bank where pin = '" + pin + "'");
+					int balance = 0;
+					while (resultSet.next()) {
+						/*
+						 * if(resultSet.getString("type").equals("Deposite")) { balance +=
+						 * Integer.parseInt(resultSet.getString("amount")); }else { balance -=
+						 * Integer.parseInt(resultSet.getString("amount")); }
+						 */
+						balance = Integer.parseInt(resultSet.getString("amount"));
+						if (balance < amount) {
+							JOptionPane.showMessageDialog(null, "Insufficient Balance");
+							return;
+						}
+						balance = balance - amount;
+						System.out.println(balance);
+						String q = "update bank set amount = '" + balance + "' where pin = '" + pin + "' ";
+						System.out.println(q);
+						connection.statement.executeUpdate(q);
+						
+						String query = "insert into withdrwal values('"+pin+"', '"+date+"','Withdrwal','"+amount+"')";
+						System.out.println(query + amount);
+						connection.statement.executeUpdate(query);
+						System.out.println(query + amount);
+						JOptionPane.showMessageDialog(null, "Amount Debited Rs. " + amount);
+						new Main_Class(pin);
+						setVisible(false);
+						
+						
+
 					}
-				}
+
 				
-				if(balance < Integer.parseInt(amount)) {
-					JOptionPane.showMessageDialog(null, "Insufficient Balance");
-					return;
+
+					// connection.statement.executeQuery("Update bank " + "set amount =
+					// '"+balance+"'" + "where pin = '"+pin+"'");
+					
 				}
-			
-				
-				//connection.statement.executeQuery("Update bank " + "set amount = '"+balance+"'" + "where pin = '"+pin+"'");
-				connection.statement.executeUpdate("insert into bank values('"+pin+"', '"+date+"','Withdrwal','"+amount+"')");
-				JOptionPane.showMessageDialog(null, "Amount Debited Rs. " + amount);
-				setVisible(false);
+			} catch (Exception E) {
+
 			}
-			}catch(Exception E) {
-			
-		}}else if(e.getSource() == b2) {
+		} else if (e.getSource() == b2) {
 			new Main_Class(pin);
 			setVisible(false);
 
 		}
-		
+
 	}
-	
-	
+
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		new Withdrwal("");

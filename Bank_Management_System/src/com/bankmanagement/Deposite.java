@@ -6,6 +6,7 @@ import java.awt.Image;
 import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.ResultSet;
 import java.util.Date;
 
 import javax.swing.ImageIcon;
@@ -59,6 +60,7 @@ public class Deposite extends JFrame implements ActionListener {
 		image.add(b2);
 
 		setLayout(null);
+
 		getContentPane().setBackground(new Color(252, 208, 76));
 		setSize(1550, 1080);
 		setLocation(0, 0);
@@ -70,19 +72,40 @@ public class Deposite extends JFrame implements ActionListener {
 		// TODO Auto-generated method stub
 
 		try {
-			String amount = textField.getText();
+			String amountStr = textField.getText();
+		
+		
 			Date date = new Date();
-
+			int existing = 0;
 			if (e.getSource() == b1) {
-				if (amount.equals("")) {
+				if (amountStr.equals("")) {
 					JOptionPane.showMessageDialog(null, "Please Enter amout want to deposite");
 				} else {
+					int amount = Integer.parseInt(amountStr);
 					Conn connection = new Conn();
-					String q = "insert into bank values('" + pin + "', '" + date + "','Deposite', '" + amount + "' )";
+					String deposite = "insert into deposite values('" + pin + "', '" + date + "','Deposite', '" + amount + "' )";
+					connection.statement.executeUpdate(deposite);
+					String query = "select amount from bank where pin = '"+pin+"'";
+					ResultSet resultSet = connection.statement.executeQuery(query);
+					if(resultSet.next()) {
+						existing = Integer.parseInt(resultSet.getString("amount"));
+						
+					}
+					if(existing > 0) {
+						existing = existing + amount;
+						String updateAccount = "update bank set amount = '" + existing + "' where pin = '" + pin + "' ";
+						//String q = "update bank set amount = '" + existing + "' where pin = '" + pin + "' ";
+						connection.statement.executeUpdate(updateAccount);
+						System.out.println(updateAccount);
+						new Main_Class(pin);
+					}else {
+				//	existing = existing + amount;
+					String q = "insert into bank values('" + pin + "', '" + date + "','Current', '" + amount + "' )";
 					connection.statement.executeUpdate(q);
 					JOptionPane.showMessageDialog(null, "Rs " + amount + " Deposited in your account");
 					setVisible(false);
 					new Main_Class(pin);
+					}
 
 				}
 

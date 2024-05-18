@@ -20,7 +20,7 @@ public class Main_Class extends JFrame implements ActionListener {
 		super("Transaction");
 		this.pin = pin;
 		ImageIcon i = new ImageIcon(ClassLoader.getSystemResource("icons/atm2.png"));
-		Image i1 = i.getImage().getScaledInstance(1550, 830, Image.SCALE_DEFAULT);
+		Image i1 = i.getImage().getScaledInstance(1600, 900, Image.SCALE_DEFAULT);
 		ImageIcon i2 = new ImageIcon(i1);
 		JLabel image = new JLabel(i2);
 		image.setBounds(0, 0, 1550, 830);

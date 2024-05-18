@@ -113,29 +113,44 @@ public class FastCash extends JFrame implements ActionListener {
 			setVisible(false);
 			new Main_Class(pin);
 		} else {
-			String amount = ((JButton) e.getSource()).getText().substring(4);
+			String amountStr = ((JButton) e.getSource()).getText().substring(4);
 			Conn connection = new Conn();
 			Date date = new Date();
 			try {
+				int amount = Integer.parseInt(amountStr);
+
 				ResultSet resultSet = connection.statement.executeQuery("select * from bank where pin = '" + pin + "'");
 				int balance = 0;
 				while (resultSet.next()) {
-					if (resultSet.getString("type").equals("Deposite")) {
+					/*if (resultSet.getString("type").equals("Deposite")) {
 						balance += Integer.parseInt(resultSet.getString("amount"));
 					} else {
 						balance -= Integer.parseInt(resultSet.getString("amount"));
 
-					}
+					}*/
+					balance = Integer.parseInt(resultSet.getString("amount"));
+					System.out.println(balance);
 				}
-				String sum = "17";
+				
 
-				if (e.getSource() != b7 && balance < Integer.parseInt(amount)) {
+				if ( balance < amount) {
 					JOptionPane.showMessageDialog(null, "Insufficient Balance");
 				}
+				if(balance > amount) {
+				balance = balance - amount; 
+				String updateAccount = "update bank set amount = '" + balance + "' where pin = '" + pin + "' ";
+				
+				//String q = "update bank set amount = '" + existing + "' where pin = '" + pin + "' ";
+				System.out.println("updateAccount " + updateAccount);
+				connection.statement.executeUpdate(updateAccount);
+				
+				String with = "insert into withdrwal values('" + pin + "','" + date + "','Withdrwal','" + amount + "')";
+				connection.statement.executeUpdate(with
+						);
+				System.out.println("with " + with);
 
-				connection.statement.executeUpdate(
-						"insert into bank values('" + pin + "','" + date + "','Withdrwal','" + amount + "')");
 				JOptionPane.showMessageDialog(null, "Amount Debited Rs " + amount);
+				}
 
 			} catch (Exception E) {
 				E.printStackTrace();
